@@ -1,6 +1,184 @@
 # react 3학년 2학기
 # 202030427 전준만
 
+## 1120
+
+### use client 란?
+
+- Next.js 13에서 도입된 새로운 지시어로, 컴포넌트가 클라이언트 사이드에서만 렌더링된다는 것을 명시
+
+-  Server Components와 Client Components가 있는데 이 둘을 구분하기 위함이다.
+
+### use client 주요 특징과 사용 이유
+
+- 동적 데이터와 상호작용 : 실시간 채팅, 동적 폼 검증, 클라이언트 사이드에서만 가능한 계산이나 데이터 처리 등 클라이언트 사이드에서 처리해야 하는 동적인 데이터와 상호작용에 적합
+
+- 브라우저 API 접근 : 클라이언트 사이드 렌더링을 통해 브라우저의 API, 예를 들어 window나 navigator와 같은 글로벌 객체에 접근할 수 있다. 이는 서버 사이드에서는 불가능한 작업
+
+- 성능 최적화 : 필요한 경우에만 클라이언트 사이드 렌더링을 사용함으로써, 서버의 부담을 줄이고 전체 애플리케이션의 성능을 최적화할 수 있다. 특히, 초기 페이지 로드 시 필요하지 않은 리소스의 로딩을 방지할 수 있다.
+
+### 주요 Directory & File
+
+- app : Routing Page 관리
+- components : 재사용 가능한 공통 컴포넌트 관리
+- features : 재사용이 불가능하거나 많은 수정을 해야 하는 컴포넌트 관리
+- context : 기능별 컴포넌트 관리
+- store : Redux store 설정 파일 관리
+- styles : CSS, Sass 등 스타일 파일 관리
+
+### Redux
+
+** Slice **
+- Redux Toolkit에서 사용되는 용어로, 특정 기능과 관련된 상태와 Reducer를 한 곳에서 정의하는 곳
+ 
+** Provider **
+- Redux Provider는 Redux의 상태 등을 공급하기 위한 파일입니다.
+- Provider를 사용하고자 하는 Page에서 사용하면 됩니다.
+- 다만 전역적으로 사용할 때는 layout 파일에 정의하면 를 사용해야 하기 때문에 별도위 컴포넌트를 만들어서 사용하는 것이 좋다.
+
+### Context API 와 Redux 비교
+
+- **Context API**
+  - React에서 기본으로 제공하는 상태 관리 도구
+  - Context API는 주로 전역 상태를 관리
+  - React.createContext()로 생성한 Context 객체와 Provider 
+  - 장점
+  컴포넌트 트리의 깊이 제한 없음
+  외부 라이브러리 설치 필요 X
+  - 단점
+  복잡한 상태 관리
+  성능 문제가 있음
+  디버깅 도구 부족
+- **Redux**
+  - Redux는 전역 상태를 관리하기 위한 독립적인 state 관리 라이브러리
+  - 상태의 변경을 예측 가능하게 하고, 전역 state 관리를 더 구조적으로 지원
+  - store, reducer, action 등의 개념을 사용해 state와 state dispatch를 관리
+  - 
+  - 장점
+    - 명확한 상태 관리 구조
+    - 미들웨어 지원
+    - 디버깅 도구
+    - 모든 프레임워크와 호환
+
+  - 단점
+    - 설정 코드의 복잡도
+    - 추가 라이브러리 필요
+    - 작은 애플리케이션에는 과한 설정
+
+## 1113
+
+### Props의 흐름
+- Next.js의 데이터 흐름은 단방향으로 이루어 짐
+- 즉, parents에서 child component의 방향으로 props의 흐름이 이루어짐
+- 계층 구조가 복잡해지면 Props Drilling 문제가 발생
+- Props Drilling은 여러 개의 component를 지나 props가 전달 되면서 발생하는 문제
+
+문제점
+1. 중간 컴포넌트에 불필요한 프로퍼티 전달
+2. 프로퍼티 데이터 형식 변경의 불편함
+3. 누락된 프로퍼티 인지의 어려움
+4. 프로퍼티 이름 변경 추적의 어려움
+
+
+### Context API
+- context는 UX 구축에 많이 사용되는 React의 기능
+- React는 16.3 버전부터 정식적으로 context api를 지원
+- 일반적으로 props는 부모에서 자식으로 전달되는 단방향 통신을 합니다.
+- Context API는 특정 component가 props를 사용하지 않고, 하위 component를 포함한 모든 component에 데이터를 공유할 수 있는 기능을 제공
+- 전역으로 데이터를 사용할 수 있도록 해줌
+
+- Context API는 createContext, Provider, useContext 개념만 알면 적용이 가능
+
+## 1106
+
+### UI 라이브러리
+- UI 라이브러리, 프레임워크, 유틸리티는 필수 X
+- 생산성 향상 및 UI 일관성
+
+- chakra UI
+  - 버튼, Modal, 입력 등 다양한 내장 컴포넌트 제공
+  - dark mode, light mode 지원
+  - 타입스크립트로 작성되어 있음
+
+  ```sh
+  npm i @chakra-ui/react @emotion/react
+  npx @chakra-ui/cli snippet add
+  ```
+
+- TailwindCSS
+  - 다른 프레임워크와는 다르게 CSS 규칙만을 제공
+  - JS 모듈이나 react 컴포넌트를 제공하지 않기 때문에 필요한 경우 직접 만들어서 사용해야 함
+  - 변수값을 조정하여 개성있는 디자인을 만들 수 있음. 디자인 자유도가 높다.
+  - dark mode 및 light mode를 쉽게 적용할 수 있다.
+  - 빌드 시점에 사용하지 않는 클래스는 제거 되기 때문에 높은 수준의 최적화를 지원
+  - CSS 클래스의 접두사를 활용해서 모바일, 데스크톱, 태블릿 화면에서 원하는 규칙을 지정할 수 있음
+
+- Headless UI
+  - TailwindCSS를 만든 Tailwind Labs 팀의 무료 오픈소스 프로젝트
+  - TailwindCSS는 웹 컴포넌트 안에서 사용할 수 있는 CSS클래스만 제공함
+  - Headless UI는 CSS클래스를 제공하는 것이 아닌 동적 컴포넌트만 제공한다.
+
+  ```sh
+  npm install @headlessui/react
+  ```
+
+## 1030
+
+### CSS와 내장 스타일링 메서드
+- Styled JSX
+  - Styled JSX는 CSS-in-JS 라이브러리이다.
+  - 내장 모듈이기에 설치가 필요 없음
+
+  - 단점
+    - IDE나 코드 편집기 등 개발 도구에 대한 지원이 부족
+    - 문법 하이라이팅, 자동 완성, 린트(lint)기능을 제공 X
+    - 코드 내에서 CSS에 대한 의존성이 점점 커지기 때문에 앱 번들도 커지고 느려짐
+
+- CSS Module
+  - CSS-in-JS의 단점을 보완하기 위한 방법이다.
+  - .module.css 로 끝나는 파일에서 CSS클래스를 가져와서 사용
+  - 변환한 객체에서 모든 키는 클래스 이름을 의미함
+  - 클래스들은 컴포넌트 스코프를 가진다.
+  - 생성된 HTML 태그를 보면 class 가 고유한 값을 갖는다.
+  - CSS Module 상속
+
+- SASS
+  - Next에서 기본으로 지원하는 전 처리기
+  - 단 패키지 설치가 필요함 ( npm install sass )
+  - SASS 및 SCSS(Sassy CSS) 문법으로 CSS Module을 만들고 사용할 수 있다.
+  - styles/Home.module.css 파일 이름을 styles/Home.module.scss로 바꿔주면 된다.
+
+## 1023
+
+### 누적 레이아웃 이동 
+- 정적 자원 중 이미지 파일은 SEO에 많은 영향을 미친다.
+- 다운로드 시간이 많이 걸리고, 렌더링 후에 레이아웃이 변경되는 등 UX에 영향을 미친다.
+- Image 컴포넌트를 사용하면 해결
+- lazy loading : 이미지 로드 시점을 필요할 때까지 지연시키는 기술
+- 이미지 사이즈 최적화로 사이즈를 1/10이하로 줄여줌
+- placeholder를 제공
+
+### Image Component
+
+#### local 방식
+  - Image 컴포넌트 사용 시 주의 사항
+  - width, height는 필수이다. (layout="fill"을 사용 시에는 생략)
+  - layout="responsive" 는 브라우저 크기에 맞게 가변한다.
+
+### Remote 방식
+- Pixabay와 같은 외부 이미지를 사용하려면 next.config.mjs 설정이 필요
+
+### 코드 구성과 데이터 불러오기
+- 프로젝트를 시작할 때 확장과 복잡도에 대비 해야한다.
+- 코드를 더 효율적으로 구성하기 위해 아토믹 디자인 원칙에 따라 디렉토리를 구성한다.
+  - atoms : 가장 기본적인 컴포넌트 관리
+  - molecules : atoms에 속한 컴포넌트 여러 개를 조합하여 복잡한 구조로 만든 컴포넌트 관리
+  - organisms : molecules와 atoms를 섞어서 더 복잡하게 만든 컴포넌트 관리
+  - templates : 위의 모든 컴포넌트를 어떻게 배치 결정해서 사용자가 접근할 수 있는 페이지
+
+## 1025
+
+
 ## 1002
 
 
